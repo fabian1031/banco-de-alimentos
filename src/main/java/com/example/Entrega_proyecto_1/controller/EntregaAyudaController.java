@@ -1,5 +1,6 @@
 package com.example.Entrega_proyecto_1.controller;
 
+import com.example.Entrega_proyecto_1.DTO.EntregaAyudaRequestDTO;
 import com.example.Entrega_proyecto_1.DTO.EntregaAyudaResponseDTO;
 import com.example.Entrega_proyecto_1.model.Beneficiario;
 import com.example.Entrega_proyecto_1.model.EntregaAyuda;
@@ -13,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -50,16 +50,13 @@ public class EntregaAyudaController {
     }
 
     @PostMapping
-    public ResponseEntity<EntregaAyudaResponseDTO> registrar(@RequestBody Map<String, Object> body) {
-        Long beneficiarioId = Long.valueOf(body.get("beneficiarioId").toString());
-        Long trabajadorId = Long.valueOf(body.get("trabajadorId").toString());
-        String observaciones = body.getOrDefault("observaciones", "").toString();
-
-        Beneficiario beneficiario = beneficiarioService.findById(beneficiarioId);
-        TrabajadorSocial trabajador = trabajadorService.findById(trabajadorId);
+    public ResponseEntity<EntregaAyudaResponseDTO> registrar(@RequestBody EntregaAyudaRequestDTO dto) {
+        Beneficiario beneficiario = beneficiarioService.findById(dto.getBeneficiarioId());
+        TrabajadorSocial trabajador = trabajadorService.findById(dto.getTrabajadorId());
 
         if (beneficiario == null || trabajador == null) return ResponseEntity.notFound().build();
 
+        String observaciones = dto.getObservaciones() != null ? dto.getObservaciones() : "";
         EntregaAyuda entrega = entregaService.registrar(beneficiario, trabajador, observaciones);
         return ResponseEntity.status(HttpStatus.CREATED).body(EntregaAyudaResponseDTO.desde(entrega));
     }
