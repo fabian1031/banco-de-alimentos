@@ -29,6 +29,15 @@ public class TrabajadorSocialService {
         return trabajadorRepository.save(trabajador);
     }
 
+    public TrabajadorSocial update(Long id, TrabajadorSocial datos) {
+        TrabajadorSocial existente = trabajadorRepository.findById(id).orElse(null);
+        if (existente == null) return null;
+        existente.setNombre(datos.getNombre());
+        existente.setCargo(datos.getCargo());
+        existente.setCorreo(datos.getCorreo());
+        return trabajadorRepository.save(existente);
+    }
+
     public void delete(Long id) {
         trabajadorRepository.deleteById(id);
     }

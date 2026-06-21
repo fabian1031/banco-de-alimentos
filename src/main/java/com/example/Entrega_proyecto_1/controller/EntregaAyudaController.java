@@ -70,6 +70,13 @@ public class EntregaAyudaController {
         return ResponseEntity.ok(lista);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<EntregaAyudaResponseDTO> actualizar(@PathVariable Long id, @RequestBody EntregaAyudaRequestDTO dto) {
+        EntregaAyuda resultado = entregaService.update(id, dto.getObservaciones() != null ? dto.getObservaciones() : "");
+        if (resultado == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(EntregaAyudaResponseDTO.desde(resultado));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         entregaService.delete(id);

@@ -40,6 +40,17 @@ public class AlimentoService {
         return alimentoRepository.findByEstadoApto("SI");
     }
 
+    public Alimento update(Long id, Alimento datos) {
+        Alimento existente = alimentoRepository.findById(id).orElse(null);
+        if (existente == null) return null;
+        existente.setNombreAlimento(datos.getNombreAlimento());
+        existente.setTipo(datos.getTipo());
+        existente.setFechaVencimiento(datos.getFechaVencimiento());
+        existente.setUnidadMedida(datos.getUnidadMedida());
+        existente.setEstadoApto(datos.getFechaVencimiento().isBefore(LocalDate.now()) ? "NO" : "SI");
+        return alimentoRepository.save(existente);
+    }
+
     public void delete(Long id) {
         alimentoRepository.deleteById(id);
     }

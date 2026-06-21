@@ -42,6 +42,13 @@ public class AlimentoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(alimentoService.save(alimento));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Alimento> actualizar(@PathVariable Long id, @RequestBody Alimento datos) {
+        Alimento resultado = alimentoService.update(id, datos);
+        if (resultado == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(resultado);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         alimentoService.delete(id);

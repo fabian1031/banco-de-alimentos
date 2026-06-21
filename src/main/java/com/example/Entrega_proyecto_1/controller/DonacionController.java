@@ -60,6 +60,13 @@ public class DonacionController {
         return ResponseEntity.ok(lista);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<DonacionResponseDTO> actualizar(@PathVariable Long id, @RequestBody DonacionRequestDTO dto) {
+        Donacion resultado = donacionService.update(id, dto.getTotalItems());
+        if (resultado == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(DonacionResponseDTO.desde(resultado));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         donacionService.delete(id);

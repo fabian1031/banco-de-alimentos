@@ -41,6 +41,13 @@ public class EntregaAyudaService {
         return entregaRepository.findByBeneficiarioId(beneficiarioId);
     }
 
+    public EntregaAyuda update(Long id, String observaciones) {
+        EntregaAyuda existente = entregaRepository.findById(id).orElse(null);
+        if (existente == null) return null;
+        existente.setObservaciones(observaciones);
+        return entregaRepository.save(existente);
+    }
+
     public void delete(Long id) {
         entregaRepository.deleteById(id);
     }

@@ -39,6 +39,13 @@ public class DonacionService {
         return donacionRepository.findByDonanteId(donanteId);
     }
 
+    public Donacion update(Long id, Integer totalItems) {
+        Donacion existente = donacionRepository.findById(id).orElse(null);
+        if (existente == null) return null;
+        existente.setTotalItems(totalItems);
+        return donacionRepository.save(existente);
+    }
+
     public void delete(Long id) {
         donacionRepository.deleteById(id);
     }

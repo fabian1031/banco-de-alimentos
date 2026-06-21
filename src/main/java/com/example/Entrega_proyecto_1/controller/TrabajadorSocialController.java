@@ -37,6 +37,13 @@ public class TrabajadorSocialController {
         return ResponseEntity.status(HttpStatus.CREATED).body(trabajadorService.save(trabajador));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<TrabajadorSocial> actualizar(@PathVariable Long id, @RequestBody TrabajadorSocial datos) {
+        TrabajadorSocial resultado = trabajadorService.update(id, datos);
+        if (resultado == null) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(resultado);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         trabajadorService.delete(id);
